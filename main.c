@@ -1,5 +1,6 @@
 
 /*This program helps managing a departmental store by helping to define goods, keep its records, make bills, keep records of the sales*/
+//Including all the header files we need 
 #include <stdlib.h>
 #include <stdio.h>
 #include <conio.h>
@@ -7,6 +8,8 @@
 #include <windows.h>
 #include <time.h>
 #include <dos.h>
+
+//declaring the functions we will use in the program
 void mainmenu();
 int MasterVerify();
 void CreateManager();
@@ -21,7 +24,7 @@ void DeleteGoods();
 void DeleteData();
 void Billing();
 void TotalSalesDisplay();
-void SetColor(int ForgC)
+void SetColor(int ForgC)     //defining SetColor function implicitly to add colors property to our texts
 {
      WORD wColor;
      //This handle is needed to get the current background attribute
@@ -38,20 +41,20 @@ void SetColor(int ForgC)
      }
      return;
 };
-struct goods
+struct goods    //to keep records of the goods in the store
 {
 	char itemcode[50];
 	char itemname[50];
 	int rate;
 }a;
-struct authorize
+struct authorize    //to keep record of the user data and password for manager and cashier
 {
 	char admin_name[50];
 	char admin_password[50];
 	char user_name[50];
 	char user_password[50];
 }b;
-struct goods2
+struct goods2   //to keeep sales record while billing and to display it later
 {
 	char itemcode[50];
 	char itemname[50];
@@ -59,15 +62,15 @@ struct goods2
 	int quantity;
 	int cost;
 }c;
-char CashierName[50];
-int grandtotal=0;
+char CashierName[50];   //globally defining CashierName so that we dont have to pass it for printing the name in the bill
+int grandtotal=0;   //globally defining the grandtotal of value of total sales
 char choice1,choice2;
 
 void main()
 {
 	long int i,j;
 	SetColor(30);
-	printf ("\n\t\t********************************************************\n");
+	printf ("\n\t\t********************************************************\n");   //welcome screen
 	printf ("\t\t*   Welcome to DEPARTMENTAL STORE MANAGEMENT SYSTEM    *\n");
 	printf ("\t\t********************************************************\n\n\n");
 	SetColor(15);
@@ -75,7 +78,7 @@ void main()
 	for (i=0;i<7;i++)
 	{
         Sleep(250);
-        printf (".");
+        printf (".");   //loading effect
 	}
 	printf("\nPress any key to continue!!\n");
 	getch();
@@ -100,7 +103,7 @@ void mainmenu()
 			case 65:
 			case 97:
 				/* Admin  Menu */
-				if(MasterVerify()==0)
+				if(MasterVerify()==0)   //verifies the master key for admin
                 {
                     system("cls");
                     printf("\t\t  ADMIN MENU\n");
@@ -134,14 +137,14 @@ void mainmenu()
                         {
                             printf ("\nInvalid Selection!\nEnter again:\n");
                             Beep(200, 900);
-                            goto askchoice1;
+                            goto askchoice1;   //asks the user to input his/her choice again
                             break;
                         }
                     }
                 }
                 else
                 {
-                    printf("\nMaster Key Mismatch !\nYou will be redirected to Main Menu\n\n");
+                    printf("\nMaster Key Mismatch !\nYou will be redirected to Main Menu\n\n");  //if MasterVerify()!=0
                     Beep(200, 900);
                     getch();
                     mainmenu();
@@ -155,7 +158,7 @@ void mainmenu()
             {
                 printf ("\nInvalid Selection!\nEnter again:");
                 Beep(200, 900);
-                goto askchoice2;
+                goto askchoice2; //asks the user to input his/her choice again
             }
     }
 }
@@ -169,12 +172,12 @@ int MasterVerify()
 	while (pas!='\n')
     {
         pas=getche();
-	    if (pas==13)
+	    if (pas==13)    //maximum allowed length of password is 13
             break;
         if (pas!='\b')
         {
             key[i]=pas;
-            printf("\b*");
+            printf("\b*");  //displays asterisk in place of characters of password thus enhancing security
         }
         else if (pas=='\b')
         {
@@ -195,7 +198,7 @@ void CreateManager()
 	char p;
 	int i=0;
 	SetColor(14);
-    if((f1=fopen("authorize1.dat","ab+"))==NULL)
+    if((f1=fopen("authorize1.dat","ab+"))==NULL)  
     {
         if ((f1=fopen("authorize1.dat","wb+"))==NULL)
         {
@@ -476,7 +479,7 @@ void CashierMenu()
 {
 	long int i,j;char ch;
 	SetColor(219);
-    system("cls");
+   	system("cls");
 	printf ("\nBilling is ready!");
 	printf ("\nPress (E) to exit.\nOR\nAny other key to continue billing:\n");
 	ch=getche();
@@ -603,7 +606,7 @@ void GoodsListDisplay()
 				printf("%s",a.itemcode);
 				printf("\t\t");
 				printf("%s",a.itemname);
-				if ((strlen(a.itemname)>0)&& (strlen(a.itemname)<=7))
+				if ((strlen(a.itemname)>0)&& (strlen(a.itemname)<=7))   //for tabular formatting of output
                     printf("\t\t");
                 if ((strlen(a.itemname)>7)&& (strlen(a.itemname)<13))
                     printf ("\t ");
@@ -638,7 +641,7 @@ void EditGoods()
 				gets (a.itemname);
 				printf ("Enter the rate for unit quantity:");
 				scanf ("%d",&a.rate);
-				fseek(f,-size,SEEK_CUR);
+				fseek(f,-size,SEEK_CUR);    //points the file pointer to the location of item to be replaced
 				fwrite(&a,sizeof(a),1,f);
 				printf ("\nDone!\n");
 				getch();
@@ -663,7 +666,7 @@ void DeleteGoods()
 	gets(itemcode);
 	while (fread(&a,sizeof(a),1,f)==1)
 	{
-		if (strcmp(a.itemcode,itemcode)!=0)
+		if (strcmp(a.itemcode,itemcode)!=0)   //writes every other data except that to be deleted to a temporary file
             fwrite(&a,sizeof(a),1,temp);
     }
     fclose(f);
@@ -749,7 +752,7 @@ void Billing()
         printf("\t%d\t\t%d\t\t%d\n",b[j].rate,quantity[j],cost[j]);
     }
     printf ("\n\t\t\t\t\tTotal:\tRs.%d",sum);
-    disc=sum<=1000?0.1*sum:((sum>1000&&sum<=3000)?0.12*sum:0.15*sum);
+    disc=sum<=1000?0.1*sum:((sum>1000&&sum<=3000)?0.12*sum:0.15*sum);   //predefined criteria for discount
     printf("\n\t\t\t\t\tDiscount: Rs.%d",disc);
     printf("\n\t\t\t\t\tNet Total: Rs.%d",sum-disc);
     printf ("\n\t\t\t\t\tTender:\tRs.");

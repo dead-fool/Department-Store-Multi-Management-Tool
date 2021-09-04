@@ -165,7 +165,7 @@ void mainmenu()
 
 int MasterVerify()
 {
-    char master[]="createme", key[10], pas;
+    char master[]="createme", key[10], pas;  //predefined master key
     int i=0;
     SetColor(111);
     printf("\n\n\nEnter the master password: ");

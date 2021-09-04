@@ -5,3 +5,8 @@ Firstly, the admin needs to create user ID for manager and cashier through admin
 code of the program.
 The manager can log in using his created ID and password and carry out the tasks: adding goods to inventory, editing goods, deleting goods, displaying total sales and displaying goods inventory.
 Similarly, the cashier can log in and carry out his/her billing duty. They can add items to the bill as much as they can from the existing inventory before printing the bill.
+
+#To run the program
+you can do either of the following:
+1) Download main.c and build executable file using your own IDE and run it.
+2) Download main.exe file directly.
